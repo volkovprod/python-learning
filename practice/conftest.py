@@ -28,6 +28,14 @@ def test_product():
     db.commit()
 
     yield product
-    db.delete(product)
-    db.commit()
+
+    existing_product = db.query(Product).filter(
+        Product.name == "Cola"
+    ).first()
+
+    if existing_product:
+        db.delete(existing_product)
+        db.commit()
+
     db.close()
+
